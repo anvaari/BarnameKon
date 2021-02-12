@@ -1,1 +1,1 @@
-web: python3 testbot_herkolu.py
+web: python3 BarnameKon.py
