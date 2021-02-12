@@ -80,7 +80,7 @@ def feed_info_to_evligen(mes_text):
     '''
     
     mes_text=mes_text.split('\n')
-    event_link=evligen(mes_text[0],mes_text[2],mes_text[3],mes_text[1],'\n'.join(mes_text[4:]))
+    event_link=evligen(mes_text[1],mes_text[3],mes_text[4],mes_text[2],'\n'.join(mes_text[5:]))
     return event_link
 
     
