@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 """
 Created on Mon Feb  1 22:41:45 2021
 
@@ -84,12 +83,13 @@ def feed_info_to_evligen(mes_text):
     return event_link
 
     
-heroku_app_name='' #Find it in  your heruko dashboard
-token = '' #Get it from @BotFather (Telegram)
+heroku_app_name='barnamekon' #Find it in  your heruko dashboard
+log_chat_id= #Chat Id which you want store log there
+token = '1677369139:AAHRJljAmVwu-G3NfQUTkDIuebsaT0C0SH8' #Give it from @BotFather (Telegram)
 bot=telebot.TeleBot(token)
 
 
-sample_event='رویداد\nمقدمه ای بر مصورسازی داده در پایتون\nskyroom\n1399/11/18-17:00\n1399/11/18-19:00\nبرای مشاهده رویداد در ساعت شروع آن به ادرس زیر مراجعه کنید:‌https://skyroom.ir/datavisual'
+sample_event='رویداد\nمقدمه ای بر مصورسازی داده در پایتون\nskyroom\n1399/11/18-17:00\n1399/11/18-19:00\nبرای مشاهده رویداد در ساعت شروع آن به ادرس زیر مراجعه کنید:‌\nhttps://skyroom.online/datavisual'
 sample_event_link=feed_info_to_evligen(sample_event)
 
 # This part use for deploying
@@ -102,30 +102,44 @@ PORT = int(os.environ.get('PORT', '8443'))
 def handle_start(message):
     bot.reply_to(message, "سلام :) \n من (برنامه کُن!) اینجا هستم تا بتونی رویداد هایی رو که میبینی به تقویم گوگلت اضافه کنی.\n برای اینکه بدونی چطوری کار میکنم /help رو وارد کن.")
     bot.send_sticker(message.chat.id,'CAACAgQAAxkBAANKYCDnIB96YtMVvksVg9J5rCHu_lEAAtoBAAIhiDAI59nW5NwpahkeBA')
+    if message.chat.type == 'private':
+        bot.send_message(log_chat_id,'@{} Start. ID: {}\n'.format(message.from_user.username,message.chat.id))
+    else:
+        bot.send_message(log_chat_id,'@{} Start in {} group @{}\n'.format(message.from_user.username,message.chat.title,message.chat.username))
+
 
 # Handle 'help' command
 @bot.message_handler(commands=['help'])
 def handle_help(message):
-    if message.chat.type!='group':
-        bot.send_message(message.chat.id,'برای دریافت لینک رویداد اطلاعات رویداد رو به فرمت زیر بفرست:')
+    if message.chat.type=='private':
+        bot.send_message(message.chat.id,'برای دریافت لینک رویداد اطلاعات رویداد رو به فرمت زیر برای من بفرست:')
         bot.send_message(message.chat.id,'رویداد \nعنوان رویداد\nمکان رویداد\nزمان و تاریخ شروع به فرمت پیام بعد\nزمان و تاریخ پایان به فرمت پیام بعد\nتوضیحات رویداد (شامل لینک و باقی توضیحات)')
         bot.send_message(message.chat.id,sample_event)
         bot.send_message(message.chat.id,f'لینک رویداد نمونه بالا : \n{sample_event_link}')
-
-        
+    else:
+        bot.send_message(message.chat.id,'برای دریافت لینک رویداد اطلاعات رویداد رو به فرمت زیر به همین پیام Reply بزن :)')
+        bot.send_message(message.chat.id,'رویداد \nعنوان رویداد\nمکان رویداد\nزمان و تاریخ شروع به فرمت پیام بعد\nزمان و تاریخ پایان به فرمت پیام بعد\nتوضیحات رویداد (شامل لینک و باقی توضیحات)')
+        bot.send_message(message.chat.id,sample_event)
+        bot.send_message(message.chat.id,f'لینک رویداد نمونه بالا : \n{sample_event_link}')
 
 # Handle text message   
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
     if 'رویداد' in message.text : 
         try:
-            event_link=feed_info_to_evligen(message.text)
-            bot.send_message(message.chat.id,f'لینک رویداد شما :\n{event_link}')
+            if message.chat.type=='private':
+                event_link=feed_info_to_evligen(message.text)
+                bot.send_message(message.chat.id,f'لینک رویداد شما :\n{event_link}')
+                bot.send_message(log_chat_id,'@{} Create Link. ID: {}\n'.format(message.from_user.username,message.chat.id))
+            else:
+                event_link=feed_info_to_evligen(message.text)
+                bot.reply_to(message,f'لینک رویداد شما :\n{event_link}')
+                bot.send_message(log_chat_id,'@{} Create Link in {} group @{}\n'.format(message.from_user.username,message.chat.title,message.chat.username))
         except:
-            bot.send_message(message.chat.id,"غالب اطلاعات ارسالی درست نیست. لطفا یه نگاهی به راهنمای رباتبنداز : /help")
+            bot.send_message(message.chat.id,"غالب اطلاعات ارسالی درست نیست. لطفا یه نگاهی به راهنمای برنامه کُن بنداز : /help")
           
     else:
-        bot.send_message(message.chat.id,"غالب اطلاعات ارسالی درست نیست. لطفا یه نگاهی به راهنمای رباتبنداز : /help")
+        bot.send_message(message.chat.id,"غالب اطلاعات ارسالی درست نیست. لطفا یه نگاهی به راهنمای برنامه کُن بنداز : /help")
 # Handle sticker message   
 @bot.message_handler(content_types=['sticker'])
 def handle_stickers(message):
