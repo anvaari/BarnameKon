@@ -12,3 +12,6 @@ I think fast,best and cheapest 😁 way for deploy your Bot is heroku.
 
 # How to contribute to BarnameKon?
 I oppened two issue that explain my ideas for improving this project. So feel free to send pull request or open new issue.  
+
+# Updates 
+**2021/3/29** : Solve the problem of summer time. (Barnamekon set time 1 hour ahead when summer time come.)
