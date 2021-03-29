@@ -49,12 +49,18 @@ def evligen(title,start_datetime,end_datetime,location,discription):
     start_datetime=dt(start_datetime.year,start_datetime.month,start_datetime.day,start_datetime.hour,start_datetime.minute) # Convert to datetime object because JalaliDateTime use earlier version of datetime and in that version timezone don't work properly.
     start_datetime=start_datetime.replace(tzinfo=timezone('Iran')).astimezone(tz=timezone('UTC'))
     start_datetime=dt(start_datetime.year,start_datetime.month,start_datetime.day,start_datetime.hour,start_datetime.minute-4)# This -4 use when deploy in heroku. I don't know why in kerkulo it show converted time with extera 4 minute.
+    # Solve summer time
+    if (start_datetime.month>=4 or (start_datetime.month==3 and start_datetime.day>=22)) and (start_datetime.month<=8 or (start_datetime.month==9 and start_datetime.day<=22)): 
+        start_datetime=dt(start_datetime.year,start_datetime.month,start_datetime.day,start_datetime.hour-1,start_datetime.minute) 
     start_datetime=start_datetime.strftime("%Y%m%dT%H%M%SZ") # Google calendar only accept this format.
     
     end_datetime=jdt.strptime(end_datetime,"%Y/%m/%d-%H:%M").togregorian()
     end_datetime=dt(end_datetime.year,end_datetime.month,end_datetime.day,end_datetime.hour,end_datetime.minute)
     end_datetime=end_datetime.replace(tzinfo=timezone('Iran')).astimezone(tz=timezone('UTC'))
     end_datetime=dt(end_datetime.year,end_datetime.month,end_datetime.day,end_datetime.hour,end_datetime.minute-4)
+    # Solve summer time
+    if (end_datetime.month>=4 or (end_datetime.month==3 and end_datetime.day>=22)) and (end_datetime.month<=8 or (end_datetime.month==9 and end_datetime.day<=22)): 
+        end_datetime=dt(end_datetime.year,end_datetime.month,end_datetime.day,end_datetime.hour-1,end_datetime.minute) 
     end_datetime=end_datetime.strftime("%Y%m%dT%H%M%SZ")
     
     
