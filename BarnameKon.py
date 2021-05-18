@@ -55,21 +55,21 @@ def evligen(title,start_datetime,end_datetime,location,discription):
     start_datetime=jdt.strptime(start_datetime,"%Y/%m/%d-%H:%M").togregorian()
     start_datetime=dt(start_datetime.year,start_datetime.month,start_datetime.day,start_datetime.hour,start_datetime.minute) # Convert to datetime object because JalaliDateTime use earlier version of datetime and in that version timezone don't work properly.
     start_datetime=start_datetime.replace(tzinfo=timezone('Iran')).astimezone(tz=timezone('UTC'))
+    e.begin=start_datetime.strftime("%Y-%m-%d %H:%m:%S")
     start_datetime-=timedelta(minutes=4) # This -4 use when deploy in heroku. I don't know why in kerkulo it show converted time with extera 4 minute.
     # Solve summer time
     if (start_datetime.month>=4 or (start_datetime.month==3 and start_datetime.day>=22)) and (start_datetime.month<=8 or (start_datetime.month==9 and start_datetime.day<=22)): 
         start_datetime=dt(start_datetime.year,start_datetime.month,start_datetime.day,start_datetime.hour-1,start_datetime.minute) 
-    e.begin=(start_datetime+timedelta(minutes=28)).strftime("%Y-%m-%d %H:%m:%S")
     start_datetime=start_datetime.strftime("%Y%m%dT%H%M%SZ") # Google calendar only accept this format.
     
     end_datetime=jdt.strptime(end_datetime,"%Y/%m/%d-%H:%M").togregorian()
     end_datetime=dt(end_datetime.year,end_datetime.month,end_datetime.day,end_datetime.hour,end_datetime.minute)
     end_datetime=end_datetime.replace(tzinfo=timezone('Iran')).astimezone(tz=timezone('UTC'))
+    e.end=end_datetime.strftime("%Y-%m-%d %H:%m:%S")
     end_datetime-=timedelta(minutes=4)
     # Solve summer time
     if (end_datetime.month>=4 or (end_datetime.month==3 and end_datetime.day>=22)) and (end_datetime.month<=8 or (end_datetime.month==9 and end_datetime.day<=22)): 
         end_datetime=dt(end_datetime.year,end_datetime.month,end_datetime.day,end_datetime.hour-1,end_datetime.minute) 
-    e.end=(end_datetime+timedelta(minutes=28)).strftime("%Y-%m-%d %H:%m:%S")
     end_datetime=end_datetime.strftime("%Y%m%dT%H%M%SZ")
     
     
@@ -136,9 +136,9 @@ def handle_help(message):
         bot.send_message(message.chat.id,'رویداد \nعنوان رویداد\nمکان رویداد\nزمان و تاریخ شروع به فرمت پیام بعد\nزمان و تاریخ پایان به فرمت پیام بعد\nتوضیحات رویداد (شامل لینک و باقی توضیحات)')
         bot.send_message(message.chat.id,sample_event_txt)
         bot.send_message(message.chat.id,f'لینک اضافه کردن رویداد نمونه بالا به تقویم گوگل  : \n{sample_event_link}')
-        with open('your.ics','w') as fp:
+        with open('Your_Event.ics','w') as fp:
             fp.writelines(sample_event_cal)
-        with open('your.ics','rb') as fp:
+        with open('Your_Event.ics','rb') as fp:
             bot.send_message(message.chat.id,'فایل ics این رویداد ')
             bot.send_document(message.chat.id, fp)
     else:
@@ -146,9 +146,9 @@ def handle_help(message):
         bot.send_message(message.chat.id,'رویداد \nعنوان رویداد\nمکان رویداد\nزمان و تاریخ شروع به فرمت پیام بعد\nزمان و تاریخ پایان به فرمت پیام بعد\nتوضیحات رویداد (شامل لینک و باقی توضیحات)')
         bot.send_message(message.chat.id,sample_event_txt)
         bot.send_message(message.chat.id,f'لینک اضافه کردن رویداد نمونه بالا به تقویم گوگل  : \n{sample_event_link}')
-        with open('your.ics','w') as fp:
+        with open('Your_Event.ics','w') as fp:
             fp.writelines(sample_event_cal)
-        with open('your.ics','rb') as fp:
+        with open('Your_Event.ics','rb') as fp:
             bot.send_message(message.chat.id,'فایل ics این رویداد ')
             bot.send_document(message.chat.id, fp)
 
@@ -162,9 +162,9 @@ def handle_text(message):
                 calendar=event[1]
                 event_link=event[0]
                 bot.send_message(message.chat.id,f'لینک رویداد شما :\n{event_link}')
-                with open('your.ics','w') as fp:
+                with open('Your_Event.ics','w') as fp:
                     fp.writelines(calendar)
-                with open('your.ics','rb') as fp:
+                with open('Your_Event.ics','rb') as fp:
                     bot.send_message(message.chat.id,'فایل ics رویداد شما')
                     bot.send_document(message.chat.id, fp)
                 bot.send_message(log_chat_id,'@{} Create Link. ID: {}\n'.format(message.from_user.username,message.chat.id))
@@ -175,9 +175,9 @@ def handle_text(message):
                 calendar=event[1]
                 event_link=event[0]               
                 bot.reply_to(message,f'لینک رویداد شما :\n{event_link}')
-                with open('your.ics','w') as fp:
+                with open('Your_Event.ics','w') as fp:
                     fp.writelines(calendar)
-                with open('your.ics','rb') as fp:
+                with open('Your_Event.ics','rb') as fp:
                     bot.send_message(message.chat.id,'فایل ics رویداد شما')
                     bot.send_document(message.chat.id, fp)
                 bot.send_message(log_chat_id,'@{} Create Link in {} group @{}\n'.format(message.from_user.username,message.chat.title,message.chat.username))
