@@ -1,5 +1,5 @@
 # What is BarnameKon?
-Barname Kon is telegram bot which create "Add to Google Calendar" link for your bot. It only accept Jalali date and Tehran time.
+Barname Kon is telegram bot which create "Add to Calendar" link (Google Calendar) and file (.ics) for your event. It only accept Jalali date and Tehran time.
 
 
 # How can I create my bot? 
@@ -15,4 +15,5 @@ I oppened two issue that explain my ideas for improving this project. So feel fr
 
 # Updates 
 **2021/3/29** : Solve the problem of summer time. (Barnamekon set time 1 hour ahead when summer time come.)
+
 **2021/5/19** : Create ics file for events. But ics file don't show time correctly (I think this is the problem with timezone), It will be fixed in next update.
