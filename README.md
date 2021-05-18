@@ -15,3 +15,4 @@ I oppened two issue that explain my ideas for improving this project. So feel fr
 
 # Updates 
 **2021/3/29** : Solve the problem of summer time. (Barnamekon set time 1 hour ahead when summer time come.)
+**2021/5/19** : Create ics file for events. But ics file don't show time correctly (I think this is the problem with timezone), It will be fixed in next update.
