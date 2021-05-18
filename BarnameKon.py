@@ -13,6 +13,7 @@ import os
 
 from urllib.parse import quote as urldecode
 from datetime import datetime  as dt
+from datetime import timedelta
 from jdatetime import datetime  as jdt 
 from pytz import timezone
 from ics import Event,Calendar
@@ -54,21 +55,21 @@ def evligen(title,start_datetime,end_datetime,location,discription):
     start_datetime=jdt.strptime(start_datetime,"%Y/%m/%d-%H:%M").togregorian()
     start_datetime=dt(start_datetime.year,start_datetime.month,start_datetime.day,start_datetime.hour,start_datetime.minute) # Convert to datetime object because JalaliDateTime use earlier version of datetime and in that version timezone don't work properly.
     start_datetime=start_datetime.replace(tzinfo=timezone('Iran')).astimezone(tz=timezone('UTC'))
-    start_datetime=dt(start_datetime.year,start_datetime.month,start_datetime.day,start_datetime.hour,start_datetime.minute-4)# This -4 use when deploy in heroku. I don't know why in kerkulo it show converted time with extera 4 minute.
+    start_datetime-=timedelta(minutes=4) # This -4 use when deploy in heroku. I don't know why in kerkulo it show converted time with extera 4 minute.
     # Solve summer time
     if (start_datetime.month>=4 or (start_datetime.month==3 and start_datetime.day>=22)) and (start_datetime.month<=8 or (start_datetime.month==9 and start_datetime.day<=22)): 
         start_datetime=dt(start_datetime.year,start_datetime.month,start_datetime.day,start_datetime.hour-1,start_datetime.minute) 
-    e.begin=start_datetime.strftime("%Y-%m-%d %H:%m:%S")
+    e.begin=(start_datetime+timedelta(minutes=28)).strftime("%Y-%m-%d %H:%m:%S")
     start_datetime=start_datetime.strftime("%Y%m%dT%H%M%SZ") # Google calendar only accept this format.
     
     end_datetime=jdt.strptime(end_datetime,"%Y/%m/%d-%H:%M").togregorian()
     end_datetime=dt(end_datetime.year,end_datetime.month,end_datetime.day,end_datetime.hour,end_datetime.minute)
     end_datetime=end_datetime.replace(tzinfo=timezone('Iran')).astimezone(tz=timezone('UTC'))
-    end_datetime=dt(end_datetime.year,end_datetime.month,end_datetime.day,end_datetime.hour,end_datetime.minute-4)
+    end_datetime-=timedelta(minutes=4)
     # Solve summer time
     if (end_datetime.month>=4 or (end_datetime.month==3 and end_datetime.day>=22)) and (end_datetime.month<=8 or (end_datetime.month==9 and end_datetime.day<=22)): 
         end_datetime=dt(end_datetime.year,end_datetime.month,end_datetime.day,end_datetime.hour-1,end_datetime.minute) 
-    e.end=end_datetime.strftime("%Y-%m-%d %H:%m:%S")
+    e.end=(end_datetime+timedelta(minutes=28)).strftime("%Y-%m-%d %H:%m:%S")
     end_datetime=end_datetime.strftime("%Y%m%dT%H%M%SZ")
     
     
@@ -106,8 +107,8 @@ token = '{}'.format(os.environ.get('bot_token')) #Give it from @BotFather (Teleg
 bot=telebot.TeleBot(token)
 
 
-sample_event='رویداد\nمقدمه ای بر مصورسازی داده در پایتون\nskyroom\n1399/11/18-17:00\n1399/11/18-19:00\nبرای مشاهده رویداد در ساعت شروع آن به ادرس زیر مراجعه کنید:‌\nhttps://skyroom.online/datavisual'
-sample_event=feed_info_to_evligen(sample_event)
+sample_event_txt='رویداد\nمقدمه ای بر مصورسازی داده در پایتون\nskyroom\n1399/11/18-17:00\n1399/11/18-19:00\nبرای مشاهده رویداد در ساعت شروع آن به ادرس زیر مراجعه کنید:‌\nhttps://skyroom.online/datavisual'
+sample_event=feed_info_to_evligen(sample_event_txt)
 sample_event_link=sample_event[0]
 sample_event_cal=sample_event[1]
 
@@ -133,7 +134,7 @@ def handle_help(message):
     if message.chat.type=='private':
         bot.send_message(message.chat.id,'برای دریافت لینک اضافه کردن به تقویم گوگل و فایل ics رویداد اطلاعات رویداد رو به فرمت زیر برای من بفرست:')
         bot.send_message(message.chat.id,'رویداد \nعنوان رویداد\nمکان رویداد\nزمان و تاریخ شروع به فرمت پیام بعد\nزمان و تاریخ پایان به فرمت پیام بعد\nتوضیحات رویداد (شامل لینک و باقی توضیحات)')
-        bot.send_message(message.chat.id,sample_event)
+        bot.send_message(message.chat.id,sample_event_txt)
         bot.send_message(message.chat.id,f'لینک اضافه کردن رویداد نمونه بالا به تقویم گوگل  : \n{sample_event_link}')
         with open('your.ics','w') as fp:
             fp.writelines(sample_event_cal)
@@ -143,7 +144,7 @@ def handle_help(message):
     else:
         bot.send_message(message.chat.id,'برای دریافت لینک اضافه کردن به تقویم گوگل و فایل ics رویداد اطلاعات رویداد رو به فرمت زیر به همین پیام Reply بزن :)')
         bot.send_message(message.chat.id,'رویداد \nعنوان رویداد\nمکان رویداد\nزمان و تاریخ شروع به فرمت پیام بعد\nزمان و تاریخ پایان به فرمت پیام بعد\nتوضیحات رویداد (شامل لینک و باقی توضیحات)')
-        bot.send_message(message.chat.id,sample_event)
+        bot.send_message(message.chat.id,sample_event_txt)
         bot.send_message(message.chat.id,f'لینک اضافه کردن رویداد نمونه بالا به تقویم گوگل  : \n{sample_event_link}')
         with open('your.ics','w') as fp:
             fp.writelines(sample_event_cal)
