@@ -89,9 +89,9 @@ def feed_info_to_evligen(mes_text):
     return event_link
 
     
-heroku_app_name=''.format(os.environ.get('h_a_n')) #Find it in  your heruko dashboard
+heroku_app_name='{}'.format(os.environ.get('h_a_n')) #Find it in  your heruko dashboard
 log_chat_id= int(os.environ.get('l_c_i'))  #Chat Id which you want store log there
-token = ''.format(os.environ.get('bot_token')) #Give it from @BotFather (Telegram)
+token = '{}'.format(os.environ.get('bot_token')) #Give it from @BotFather (Telegram)
 bot=telebot.TeleBot(token)
 
 
