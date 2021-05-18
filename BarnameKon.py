@@ -15,7 +15,6 @@ from urllib.parse import quote as urldecode
 from datetime import datetime  as dt
 from jdatetime import datetime  as jdt 
 from pytz import timezone
-from boto.s3.connection import S3Connection
 
 def evligen(title,start_datetime,end_datetime,location,discription):
     '''
@@ -90,9 +89,9 @@ def feed_info_to_evligen(mes_text):
     return event_link
 
     
-heroku_app_name=''.format(S3Connection(os.environ['h_a_n'])) #Find it in  your heruko dashboard
-log_chat_id= S3Connection(os.environ['l_c_i'])  #Chat Id which you want store log there
-token = ''.format(S3Connection(os.environ['bot_token'])) #Give it from @BotFather (Telegram)
+heroku_app_name=''.format(os.environ.get('h_a_n')) #Find it in  your heruko dashboard
+log_chat_id= int(os.environ.get('l_c_i'))  #Chat Id which you want store log there
+token = ''.format(os.environ.get('bot_token')) #Give it from @BotFather (Telegram)
 bot=telebot.TeleBot(token)
 
 
