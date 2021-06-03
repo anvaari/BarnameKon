@@ -15,7 +15,7 @@ from urllib.parse import quote as urldecode
 from datetime import datetime  as dt
 from datetime import timedelta
 from jdatetime import datetime  as jdt 
-from pytz import timezone
+from dateutil import tz
 from ics import Event,Calendar
 
 def evligen(title,start_datetime,end_datetime,location,discription):
@@ -54,7 +54,7 @@ def evligen(title,start_datetime,end_datetime,location,discription):
     
     start_datetime=jdt.strptime(start_datetime,"%Y/%m/%d-%H:%M").togregorian()
     start_datetime=dt(start_datetime.year,start_datetime.month,start_datetime.day,start_datetime.hour,start_datetime.minute) # Convert to datetime object because JalaliDateTime use earlier version of datetime and in that version timezone don't work properly.
-    start_datetime=start_datetime.replace(tzinfo=timezone('Iran')).astimezone(tz=timezone('UTC'))
+    start_datetime=start_datetime.replace(tzinfo=tz.gettz('Iran')).astimezone(tz=tz.gettz('UTC'))
     e.begin=start_datetime.strftime("%Y-%m-%d %H:%m:%S")
     start_datetime-=timedelta(minutes=4) # This -4 use when deploy in heroku. I don't know why in kerkulo it show converted time with extera 4 minute.
     # Solve summer time
@@ -64,7 +64,7 @@ def evligen(title,start_datetime,end_datetime,location,discription):
     
     end_datetime=jdt.strptime(end_datetime,"%Y/%m/%d-%H:%M").togregorian()
     end_datetime=dt(end_datetime.year,end_datetime.month,end_datetime.day,end_datetime.hour,end_datetime.minute)
-    end_datetime=end_datetime.replace(tzinfo=timezone('Iran')).astimezone(tz=timezone('UTC'))
+    end_datetime=end_datetime.replace(tzinfo=tz.gettz('Iran')).astimezone(tz=tz.gettz('UTC'))
     e.end=end_datetime.strftime("%Y-%m-%d %H:%m:%S")
     end_datetime-=timedelta(minutes=4)
     # Solve summer time
