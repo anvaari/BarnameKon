@@ -17,3 +17,6 @@ I oppened two issue that explain my ideas for improving this project. So feel fr
 **2021/3/29** : Solve the problem of summer time. (Barnamekon set time 1 hour ahead when summer time come.)
 
 **2021/5/19** : Create ics file for events. But ics file don't show time correctly (I think this is the problem with timezone), It will be fixed in next update.
+
+
+**2021/6/3** : Bug related to pytz library and [known bug](https://icspy.readthedocs.io/en/stable/misc.html#datetimes-are-converted-to-utc-at-parsing-time) from ics library which incorrectly set time in ics file, fixed.
