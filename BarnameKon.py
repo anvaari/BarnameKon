@@ -13,7 +13,6 @@ import os
 
 from urllib.parse import quote as urldecode
 from datetime import datetime  as dt
-from datetime import timedelta
 from jdatetime import datetime  as jdt 
 from dateutil import tz
 from ics import Event,Calendar
@@ -195,10 +194,15 @@ def getMessage():
 def webhook():
     bot.remove_webhook()
     bot.set_webhook(url=f'https://{heroku_app_name}.herokuapp.com/' + token)
+    # Uncomment below and comment above if you wanna deploy locally
+    #bot.set_webhook(url="Your ngrok url which start with 'https' and end with 'ngrok.io/'" + token)
     return "!", 200
 
 
 if __name__ == "__main__":
     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    # Uncomment below and comment above if you wanna deploy locally
+    #server.run(host="localhost", port=int(os.environ.get('PORT', 5000)))
+    
 
 
