@@ -8,7 +8,7 @@ Barname Kon is telegram bot which create "Add to Calendar" link (Google Calendar
 - Clone Repository 
 - Create virtural env and install requirements.
 - Change variable in .env.sample in proper way
-    - You should create a bot in [@Botfather](https://t.me/botfather) and access token its token.
+    - You should create a bot in [@Botfather](https://t.me/botfather).
 - Rename .env.sample to .env
 - In Barnamekon.py : 
    - See [line 197](https://github.com/anvaari/BarnameKon/blob/f7a98f6166f77f2531d850d55f7c52688d491f54/BarnameKon.py#L197)
