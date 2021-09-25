@@ -40,3 +40,7 @@ I oppened two issue that explain my ideas for improving this project. So feel fr
 
 
 **2021/8/11** : Add .env.sample file. Also add steps to README.md for deploying Barnamekon in local machine.
+
+# Donation
+Donation make developer of this project so happy and greatful :) So if Barnamekon help you and want donate, here is my address on lightening network. You can donate bitcoin with less amount of fee :)
+mohammadanvary@lntxbot.com
