@@ -1,6 +1,10 @@
 # What is BarnameKon?
 Barname Kon is telegram bot which create "Add to Calendar" link (Google Calendar) and file (.ics) for your event. It only accept Jalali date and Tehran time.
 
+# 8K Satoshi for [this](https://github.com/anvaari/BarnameKon/issues/1) feature
+I will pay 8000 Satoshi for who work on [this](https://github.com/anvaari/BarnameKon/issues/1) issue and add that feature.
+I know this isn't too much. But it is amount of $btc which I can pay. I wish it encourage you :)
+
 # Deploy on local
 
 - Install Heroku cli [From Here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install). You should change your IP for sign up [from Iran to anywhere!]
