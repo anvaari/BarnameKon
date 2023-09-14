@@ -1,7 +1,7 @@
 # What is BarnameKon?
 Barname Kon is telegram bot which create "Add to Calendar" link (Google Calendar) and file (.ics) for your event. It only accept Jalali date and Tehran time.
 
-**Important:** I don't maintain this project anymore, if you are intrested email me :)
+**Important:** I don't maintain this project anymore.
 
 # Deploy on local
 
